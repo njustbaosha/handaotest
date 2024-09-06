@@ -1,0 +1,27 @@
+--cpu=Cortex-M4.fp.sp
+"handaotest\startup_stm32f407xx.o"
+"handaotest\main.o"
+"handaotest\gpio.o"
+"handaotest\tim.o"
+"handaotest\stm32f4xx_it.o"
+"handaotest\stm32f4xx_hal_msp.o"
+"handaotest\stm32f4xx_hal_tim.o"
+"handaotest\stm32f4xx_hal_tim_ex.o"
+"handaotest\stm32f4xx_hal_rcc.o"
+"handaotest\stm32f4xx_hal_rcc_ex.o"
+"handaotest\stm32f4xx_hal_flash.o"
+"handaotest\stm32f4xx_hal_flash_ex.o"
+"handaotest\stm32f4xx_hal_flash_ramfunc.o"
+"handaotest\stm32f4xx_hal_gpio.o"
+"handaotest\stm32f4xx_hal_dma_ex.o"
+"handaotest\stm32f4xx_hal_dma.o"
+"handaotest\stm32f4xx_hal_pwr.o"
+"handaotest\stm32f4xx_hal_pwr_ex.o"
+"handaotest\stm32f4xx_hal_cortex.o"
+"handaotest\stm32f4xx_hal.o"
+"handaotest\stm32f4xx_hal_exti.o"
+"handaotest\system_stm32f4xx.o"
+--strict --scatter "handaotest\handaotest.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "handaotest.map" -o handaotest\handaotest.axf
