@@ -38,7 +38,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+uint8_t KeyNum;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -75,6 +75,10 @@ uint8_t Key_GetNum(void)
   return KeyNum;
 }
 
+void Set_Accelerator(float percent)
+{
+  uint32_t compare = percent*10+1000;
+}
 /* USER CODE END 0 */
 
 /**
@@ -121,8 +125,7 @@ int main(void)
 
   while (1)
   {
-
-
+    KeyNum = Key_GetNum();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
