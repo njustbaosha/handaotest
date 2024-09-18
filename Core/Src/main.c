@@ -38,7 +38,8 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-uint8_t KeyNum;
+uint8_t KeyNum = 3;
+uint32_t CurrentCompare;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -55,29 +56,31 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t Key_GetNum(void)
+float min(float a, float b)
 {
-  uint8_t KeyNum = 5;
-  if(HAL_GPIO_ReadPin(GPIOE,KEY0_Pin)==0)
-  {
-    HAL_Delay(20);
-    while(HAL_GPIO_ReadPin(GPIOE,KEY0_Pin) == 0);
-    HAL_Delay(20);
-    KeyNum = 0;
-  }
-  if(HAL_GPIO_ReadPin(GPIOE,KEY1_Pin)==0)
-  {
-    HAL_Delay(20);
-    while(HAL_GPIO_ReadPin(GPIOE,KEY1_Pin) == 0);
-    HAL_Delay(20);
-    KeyNum = 1;
-  }
-  return KeyNum;
+    if (a > b)
+    {
+        return b;
+    }
+    else
+    {
+        return a;
+    }
 }
+
 
 void Set_Accelerator(float percent)
 {
-  uint32_t compare = percent*10+1000;
+
+  uint32_t TargetCompare = percent*10+500;
+  if(TargetCompare > CurrentCompare)
+  {
+    CurrentCompare += min(10,TargetCompare-CurrentCompare);
+  }
+  else
+  {
+    CurrentCompare -= min(10,CurrentCompare-TargetCompare);
+  }
 }
 /* USER CODE END 0 */
 
@@ -119,13 +122,27 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
-
-
+  // Set_Accelerator(100);
+  // HAL_Delay(2000);
+//  Set_Accelerator(0);
+//  HAL_Delay(1000);
+//	Set_Accelerator(10);
+//		int16_t percentage = 0;
 
   while (1)
   {
-    KeyNum = Key_GetNum();
+		HAL_Delay(10);
+		
+    if(KeyNum == 0 )
+    {
+      Set_Accelerator(0);
+    }
+    if(KeyNum == 1 )
+    {
+      Set_Accelerator(0);
+    }
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -179,6 +196,17 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  if(GPIO_Pin == GPIO_PIN_3)//KEY1
+  {
+    KeyNum = 1;
+  }
+  if(GPIO_Pin == GPIO_PIN_4)//KEY0
+  {
+    KeyNum = 0;
+  }
+}
 
 /* USER CODE END 4 */
 
